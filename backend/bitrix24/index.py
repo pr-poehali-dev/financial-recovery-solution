@@ -3,6 +3,7 @@ import os
 import urllib.request
 import urllib.parse
 from datetime import datetime
+# Force redeploy to pick up secrets
 
 def handler(event: dict, context) -> dict:
     """Отправка лидов в Битрикс24 CRM через webhook"""
@@ -63,7 +64,7 @@ def handler(event: dict, context) -> dict:
                 'body': json.dumps({'error': 'Webhook URL не настроен'})
             }
         
-        webhook_url = webhook_url.rstrip('/')
+        webhook_url = webhook_url.replace('/profile.json', '').rstrip('/')
         
         title = f"Заявка с сайта: {name}"
         if form_type == 'appointment':
@@ -97,12 +98,16 @@ def handler(event: dict, context) -> dict:
         
         api_url = f"{webhook_url}/crm.lead.add.json"
         
-        post_data = {
-            'fields': lead_data,
-            'params': {'REGISTER_SONET_EVENT': 'Y'}
-        }
+        params = {}
+        for key, value in lead_data.items():
+            if isinstance(value, list):
+                for i, item in enumerate(value):
+                    for item_key, item_value in item.items():
+                        params[f'fields[{key}][{i}][{item_key}]'] = item_value
+            else:
+                params[f'fields[{key}]'] = value
         
-        data = urllib.parse.urlencode({'fields': json.dumps(lead_data)}).encode('utf-8')
+        data = urllib.parse.urlencode(params).encode('utf-8')
         
         req = urllib.request.Request(api_url, data=data, method='POST')
         req.add_header('Content-Type', 'application/x-www-form-urlencoded')
