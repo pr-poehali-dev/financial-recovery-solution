@@ -211,43 +211,38 @@ export default function Index() {
             Реальные истории людей, которым мы помогли
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
-              <Card key={item} className="overflow-hidden border-2 hover:border-primary transition-all duration-300 hover:shadow-xl">
-                <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer">
-                    <Icon name="Play" size={32} className="text-primary ml-1" />
+            {[
+              "https://vkvideo.ru/video-78655613_456239123?t=59s",
+              "https://vkvideo.ru/video-78655613_456239032?t=3m3s",
+              "https://vkvideo.ru/video-78655613_456239047?t=1m26s",
+              "https://vkvideo.ru/video-78655613_456239043?t=4m25s",
+              "https://vkvideo.ru/video-78655613_456239073?t=1m29s",
+              "https://vkvideo.ru/video-78655613_456239040"
+            ].map((url, index) => {
+              const videoId = url.match(/video(-?\d+_\d+)/)?.[1] || '';
+              const embedUrl = `https://vk.com/video_ext.php?oid=${videoId.split('_')[0]}&id=${videoId.split('_')[1]}&hd=2`;
+              
+              return (
+                <Card key={index} className="overflow-hidden border-2 hover:border-primary transition-all duration-300 hover:shadow-xl">
+                  <div className="aspect-video">
+                    <iframe
+                      src={embedUrl}
+                      width="100%"
+                      height="100%"
+                      allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                      frameBorder="0"
+                      allowFullScreen
+                      className="w-full h-full"
+                    ></iframe>
                   </div>
-                </div>
-                <CardContent className="p-6">
-                  <p className="text-muted-foreground mb-2">Видеоотзыв клиента</p>
-                  <p className="text-sm text-muted-foreground">
-                    История успешного банкротства и освобождения от долгов
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="calculator" className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 border-2 border-primary/10">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">
-              Узнайте стоимость банкротства
-            </h2>
-            <p className="text-center text-muted-foreground mb-8">
-              Ответьте на несколько простых вопросов
-            </p>
-            <div className="bg-secondary/10 border-2 border-dashed border-secondary rounded-xl p-12 text-center">
-              <Icon name="Calculator" size={48} className="text-secondary mx-auto mb-4" />
-              <p className="text-lg font-semibold text-foreground mb-2">
-                Здесь будет размещён код калькулятора
-              </p>
-              <p className="text-muted-foreground">
-                Вставьте код вашей формы в этот блок
-              </p>
-            </div>
+                  <CardContent className="p-4">
+                    <p className="text-sm text-muted-foreground">
+                      Отзыв клиента о банкротстве
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -322,7 +317,9 @@ export default function Index() {
                   <Icon name="Phone" size={24} className="text-primary flex-shrink-0 mt-1" />
                   <div>
                     <p className="font-semibold text-foreground">Телефон</p>
-                    <p className="text-muted-foreground">+7 (800) 123-45-67</p>
+                    <a href="tel:88006001974" className="text-primary hover:text-primary/80 font-semibold text-lg">
+                      8 (800) 600-19-74
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -357,7 +354,9 @@ export default function Index() {
             <div>
               <h4 className="text-lg font-bold mb-4">Контакты</h4>
               <div className="space-y-2 text-white/80">
-                <p>+7 (800) 123-45-67</p>
+                <a href="tel:88006001974" className="block hover:text-secondary transition-colors">
+                  8 (800) 600-19-74
+                </a>
                 <p>info@vitakon.ru</p>
                 <p>37 офисов по всей России</p>
               </div>
