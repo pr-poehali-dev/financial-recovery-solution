@@ -3,7 +3,7 @@ import os
 import urllib.request
 import urllib.parse
 from datetime import datetime
-# Force redeploy to pick up secrets
+# v2
 
 def handler(event: dict, context) -> dict:
     """Отправка лидов в Битрикс24 CRM через webhook"""
