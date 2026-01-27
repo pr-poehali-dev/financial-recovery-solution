@@ -3,7 +3,7 @@ import os
 import urllib.request
 import urllib.parse
 from datetime import datetime
-# v2
+# v3 - new webhook
 
 def handler(event: dict, context) -> dict:
     """Отправка лидов в Битрикс24 CRM через webhook"""
