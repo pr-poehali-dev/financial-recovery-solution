@@ -18,9 +18,15 @@ export default function Index() {
       return;
     }
     
+    const phoneDigits = consultationForm.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 11) {
+      toast({ title: 'Ошибка', description: 'Телефон должен содержать 11 цифр', variant: 'destructive' });
+      return;
+    }
+    
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://functions.poehali.dev/787c227b-bc43-448d-9da9-f1ae8678182b', {
+      const response = await fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...consultationForm, form_type: 'consultation' })
@@ -47,9 +53,15 @@ export default function Index() {
       return;
     }
     
+    const phoneDigits = appointmentForm.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 11) {
+      toast({ title: 'Ошибка', description: 'Телефон должен содержать 11 цифр', variant: 'destructive' });
+      return;
+    }
+    
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://functions.poehali.dev/787c227b-bc43-448d-9da9-f1ae8678182b', {
+      const response = await fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...appointmentForm, form_type: 'appointment' })
@@ -336,10 +348,11 @@ export default function Index() {
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Телефон</label>
                     <Input 
-                      placeholder="+7 (___) ___-__-__" 
+                      placeholder="+7 (___) ___-__-__ (11 цифр)" 
                       className="border-2" 
                       value={consultationForm.phone}
                       onChange={(e) => setConsultationForm({...consultationForm, phone: e.target.value})}
+                      maxLength={18}
                     />
                   </div>
                   <div>
@@ -396,10 +409,11 @@ export default function Index() {
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Телефон</label>
                     <Input 
-                      placeholder="+7 (___) ___-__-__" 
+                      placeholder="+7 (___) ___-__-__ (11 цифр)" 
                       className="border-2" 
                       value={appointmentForm.phone}
                       onChange={(e) => setAppointmentForm({...appointmentForm, phone: e.target.value})}
+                      maxLength={18}
                     />
                   </div>
                   <div>

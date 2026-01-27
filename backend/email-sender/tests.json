@@ -1,0 +1,54 @@
+{
+  "tests": [
+    {
+      "name": "Test consultation form email",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Тестовый Клиент",
+        "phone": "+79001234567",
+        "debt_amount": "500000",
+        "comment": "Тестовая заявка",
+        "form_type": "consultation"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "message": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test appointment form email",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Петр Иванов",
+        "phone": "+79009876543",
+        "email": "test@example.com",
+        "city": "Москва",
+        "form_type": "appointment"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test invalid phone length",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Тест",
+        "phone": "+7900123",
+        "form_type": "consultation"
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
