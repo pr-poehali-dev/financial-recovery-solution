@@ -3,8 +3,73 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Index() {
+  const { toast } = useToast();
+  const [consultationForm, setConsultationForm] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
+  const [appointmentForm, setAppointmentForm] = useState({ name: '', phone: '', email: '', city: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleConsultationSubmit = async () => {
+    if (!consultationForm.name || !consultationForm.phone) {
+      toast({ title: 'Ошибка', description: 'Заполните имя и телефон', variant: 'destructive' });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('https://functions.poehali.dev/787c227b-bc43-448d-9da9-f1ae8678182b', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...consultationForm, form_type: 'consultation' })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        toast({ title: 'Успешно!', description: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
+        setConsultationForm({ name: '', phone: '', debt_amount: '', comment: '' });
+      } else {
+        toast({ title: 'Ошибка', description: result.error || 'Не удалось отправить заявку', variant: 'destructive' });
+      }
+    } catch (error) {
+      toast({ title: 'Ошибка', description: 'Не удалось отправить заявку. Попробуйте позже.', variant: 'destructive' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleAppointmentSubmit = async () => {
+    if (!appointmentForm.name || !appointmentForm.phone) {
+      toast({ title: 'Ошибка', description: 'Заполните имя и телефон', variant: 'destructive' });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('https://functions.poehali.dev/787c227b-bc43-448d-9da9-f1ae8678182b', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...appointmentForm, form_type: 'appointment' })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        toast({ title: 'Успешно!', description: 'Запись создана. Мы свяжемся с вами для подтверждения.' });
+        setAppointmentForm({ name: '', phone: '', email: '', city: '' });
+      } else {
+        toast({ title: 'Ошибка', description: result.error || 'Не удалось записаться', variant: 'destructive' });
+      }
+    } catch (error) {
+      toast({ title: 'Ошибка', description: 'Не удалось отправить заявку. Попробуйте позже.', variant: 'destructive' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b">
@@ -261,22 +326,47 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Ваше имя</label>
-                    <Input placeholder="Иван Иванов" className="border-2" />
+                    <Input 
+                      placeholder="Иван Иванов" 
+                      className="border-2" 
+                      value={consultationForm.name}
+                      onChange={(e) => setConsultationForm({...consultationForm, name: e.target.value})}
+                    />
                   </div>
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Телефон</label>
-                    <Input placeholder="+7 (___) ___-__-__" className="border-2" />
+                    <Input 
+                      placeholder="+7 (___) ___-__-__" 
+                      className="border-2" 
+                      value={consultationForm.phone}
+                      onChange={(e) => setConsultationForm({...consultationForm, phone: e.target.value})}
+                    />
                   </div>
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Сумма задолженности</label>
-                    <Input placeholder="Например, 500 000 ₽" className="border-2" />
+                    <Input 
+                      placeholder="Например, 500 000 ₽" 
+                      className="border-2" 
+                      value={consultationForm.debt_amount}
+                      onChange={(e) => setConsultationForm({...consultationForm, debt_amount: e.target.value})}
+                    />
                   </div>
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Комментарий</label>
-                    <Textarea placeholder="Опишите вашу ситуацию" rows={4} className="border-2" />
+                    <Textarea 
+                      placeholder="Опишите вашу ситуацию" 
+                      rows={4} 
+                      className="border-2" 
+                      value={consultationForm.comment}
+                      onChange={(e) => setConsultationForm({...consultationForm, comment: e.target.value})}
+                    />
                   </div>
-                  <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg py-6">
-                    Отправить заявку
+                  <Button 
+                    onClick={handleConsultationSubmit}
+                    disabled={isSubmitting}
+                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg py-6"
+                  >
+                    {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
                   </Button>
                   <p className="text-xs text-muted-foreground text-center">
                     Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
@@ -296,18 +386,37 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Ваше имя</label>
-                    <Input placeholder="Иван Иванов" className="border-2" />
+                    <Input 
+                      placeholder="Иван Иванов" 
+                      className="border-2" 
+                      value={appointmentForm.name}
+                      onChange={(e) => setAppointmentForm({...appointmentForm, name: e.target.value})}
+                    />
                   </div>
                   <div>
-                    <label className="text-sm font-semibold text-foreground mb-2 block">Email</label>
-                    <Input type="email" placeholder="example@mail.ru" className="border-2" />
+                    <label className="text-sm font-semibold text-foreground mb-2 block">Телефон</label>
+                    <Input 
+                      placeholder="+7 (___) ___-__-__" 
+                      className="border-2" 
+                      value={appointmentForm.phone}
+                      onChange={(e) => setAppointmentForm({...appointmentForm, phone: e.target.value})}
+                    />
                   </div>
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Город</label>
-                    <Input placeholder="Москва" className="border-2" />
+                    <Input 
+                      placeholder="Москва" 
+                      className="border-2" 
+                      value={appointmentForm.city}
+                      onChange={(e) => setAppointmentForm({...appointmentForm, city: e.target.value})}
+                    />
                   </div>
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-lg py-6">
-                    Записаться
+                  <Button 
+                    onClick={handleAppointmentSubmit}
+                    disabled={isSubmitting}
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-lg py-6"
+                  >
+                    {isSubmitting ? 'Отправка...' : 'Записаться'}
                   </Button>
                 </CardContent>
               </Card>
@@ -322,13 +431,7 @@ export default function Index() {
                     </a>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Icon name="Mail" size={24} className="text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <p className="font-semibold text-foreground">Email</p>
-                    <p className="text-muted-foreground">info@vitakon.ru</p>
-                  </div>
-                </div>
+
                 <div className="flex items-start gap-3">
                   <Icon name="MapPin" size={24} className="text-primary flex-shrink-0 mt-1" />
                   <div>
@@ -347,17 +450,22 @@ export default function Index() {
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <h3 className="text-2xl font-bold mb-4 text-secondary">ВИТАКОН</h3>
-              <p className="text-white/80">
+              <p className="text-white/80 mb-4">
                 Юридическая компания по банкротству физических лиц. Работаем с 2015 года.
               </p>
+              <div className="text-white/70 text-sm space-y-1">
+                <p className="font-semibold">ООО "ВИТАКОН"</p>
+                <p>г. Курган, ул. Пичугина, стр. 9, пом. 1, офис 221</p>
+                <p>ИНН 7451388149</p>
+                <p>ОГРН 1157451003973</p>
+              </div>
             </div>
             <div>
               <h4 className="text-lg font-bold mb-4">Контакты</h4>
               <div className="space-y-2 text-white/80">
-                <a href="tel:88006001974" className="block hover:text-secondary transition-colors">
+                <a href="tel:88006001974" className="block hover:text-secondary transition-colors font-semibold">
                   8 (800) 600-19-74
                 </a>
-                <p>info@vitakon.ru</p>
                 <p>37 офисов по всей России</p>
               </div>
             </div>
@@ -371,7 +479,7 @@ export default function Index() {
             </div>
           </div>
           <div className="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
-            <p>© 2024 ВИТАКОН. Все права защищены.</p>
+            <p>© 2026 ВИТАКОН. Все права защищены.</p>
           </div>
         </div>
       </footer>

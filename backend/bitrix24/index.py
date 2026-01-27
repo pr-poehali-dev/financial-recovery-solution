@@ -1,0 +1,156 @@
+import json
+import os
+import urllib.request
+import urllib.parse
+from datetime import datetime
+
+def handler(event: dict, context) -> dict:
+    """Отправка лидов в Битрикс24 CRM через webhook"""
+    
+    method = event.get('httpMethod', 'POST')
+    
+    if method == 'OPTIONS':
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Max-Age': '86400'
+            },
+            'body': ''
+        }
+    
+    if method != 'POST':
+        return {
+            'statusCode': 405,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({'error': 'Method not allowed'})
+        }
+    
+    try:
+        body = json.loads(event.get('body', '{}'))
+        
+        name = body.get('name', '')
+        phone = body.get('phone', '')
+        email = body.get('email', '')
+        city = body.get('city', '')
+        debt_amount = body.get('debt_amount', '')
+        comment = body.get('comment', '')
+        form_type = body.get('form_type', 'consultation')
+        
+        if not name or not phone:
+            return {
+                'statusCode': 400,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({'error': 'Имя и телефон обязательны'})
+            }
+        
+        webhook_url = os.environ.get('BITRIX24_WEBHOOK_URL')
+        if not webhook_url:
+            return {
+                'statusCode': 500,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({'error': 'Webhook URL не настроен'})
+            }
+        
+        webhook_url = webhook_url.rstrip('/')
+        
+        title = f"Заявка с сайта: {name}"
+        if form_type == 'appointment':
+            title = f"Запись на встречу: {name}"
+        
+        description_parts = []
+        if phone:
+            description_parts.append(f"Телефон: {phone}")
+        if email:
+            description_parts.append(f"Email: {email}")
+        if city:
+            description_parts.append(f"Город: {city}")
+        if debt_amount:
+            description_parts.append(f"Сумма задолженности: {debt_amount}")
+        if comment:
+            description_parts.append(f"Комментарий: {comment}")
+        description_parts.append(f"Тип формы: {form_type}")
+        description_parts.append(f"Дата: {datetime.now().strftime('%d.%m.%Y %H:%M')}")
+        
+        lead_data = {
+            'TITLE': title,
+            'NAME': name,
+            'PHONE': [{'VALUE': phone, 'VALUE_TYPE': 'WORK'}],
+            'COMMENTS': '\n'.join(description_parts),
+            'SOURCE_ID': 'WEB',
+            'SOURCE_DESCRIPTION': 'Сайт ВИТАКОН'
+        }
+        
+        if email:
+            lead_data['EMAIL'] = [{'VALUE': email, 'VALUE_TYPE': 'WORK'}]
+        
+        api_url = f"{webhook_url}/crm.lead.add.json"
+        
+        post_data = {
+            'fields': lead_data,
+            'params': {'REGISTER_SONET_EVENT': 'Y'}
+        }
+        
+        data = urllib.parse.urlencode({'fields': json.dumps(lead_data)}).encode('utf-8')
+        
+        req = urllib.request.Request(api_url, data=data, method='POST')
+        req.add_header('Content-Type', 'application/x-www-form-urlencoded')
+        
+        with urllib.request.urlopen(req, timeout=10) as response:
+            result = json.loads(response.read().decode('utf-8'))
+            
+            if result.get('result'):
+                return {
+                    'statusCode': 200,
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    'body': json.dumps({
+                        'success': True,
+                        'lead_id': result['result'],
+                        'message': 'Заявка успешно отправлена'
+                    })
+                }
+            else:
+                return {
+                    'statusCode': 500,
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    'body': json.dumps({
+                        'success': False,
+                        'error': result.get('error_description', 'Ошибка при создании лида')
+                    })
+                }
+    
+    except json.JSONDecodeError:
+        return {
+            'statusCode': 400,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({'error': 'Некорректный JSON'})
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({'error': f'Ошибка сервера: {str(e)}'})
+        }
