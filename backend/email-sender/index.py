@@ -1,11 +1,11 @@
 import json
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import os
+import urllib.request
+import urllib.parse
 from datetime import datetime
 
 def handler(event: dict, context) -> dict:
-    """Отправка заявок с форм на email"""
+    """Отправка заявок с форм в Telegram"""
     
     method = event.get('httpMethod', 'POST')
     
@@ -52,7 +52,8 @@ def handler(event: dict, context) -> dict:
                 'body': json.dumps({'error': 'Имя и телефон обязательны'})
             }
         
-        if len(phone.replace('+', '').replace(' ', '').replace('-', '').replace('(', '').replace(')', '')) != 11:
+        phone_digits = phone.replace('+', '').replace(' ', '').replace('-', '').replace('(', '').replace(')', '')
+        if len(phone_digits) != 11:
             return {
                 'statusCode': 400,
                 'headers': {
@@ -62,89 +63,89 @@ def handler(event: dict, context) -> dict:
                 'body': json.dumps({'error': 'Телефон должен содержать 11 цифр'})
             }
         
-        recipient_email = 'vitakonvitakon@yandex.ru'
+        bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
+        chat_id = os.environ.get('TELEGRAM_CHAT_ID')
         
-        subject = 'Новая заявка с сайта ВИТАКОН'
-        if form_type == 'appointment':
-            subject = 'Запись на встречу - ВИТАКОН'
-        elif form_type == 'consultation':
-            subject = 'Заявка на консультацию - ВИТАКОН'
+        if not bot_token or not chat_id:
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({
+                    'success': True,
+                    'message': 'Заявка получена (Telegram не настроен)',
+                    'warning': 'Добавьте TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID для уведомлений'
+                })
+            }
         
-        email_body = f"""
-        <html>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <h2 style="color: #2563eb;">Новая заявка с сайта</h2>
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Имя:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{name}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Телефон:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{phone}</td>
-                </tr>
-        """
+        form_title = 'Консультация' if form_type == 'consultation' else 'Запись на встречу'
+        
+        message_parts = [
+            f"🔔 <b>Новая заявка: {form_title}</b>",
+            f"",
+            f"👤 <b>Имя:</b> {name}",
+            f"📱 <b>Телефон:</b> {phone}"
+        ]
         
         if email_from:
-            email_body += f"""
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Email:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{email_from}</td>
-                </tr>
-            """
+            message_parts.append(f"📧 <b>Email:</b> {email_from}")
         
         if city:
-            email_body += f"""
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Город:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{city}</td>
-                </tr>
-            """
+            message_parts.append(f"🏙 <b>Город:</b> {city}")
         
         if debt_amount:
-            email_body += f"""
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Сумма задолженности:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{debt_amount} руб.</td>
-                </tr>
-            """
+            message_parts.append(f"💰 <b>Сумма долга:</b> {debt_amount} ₽")
         
         if comment:
-            email_body += f"""
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Комментарий:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{comment}</td>
-                </tr>
-            """
+            message_parts.append(f"💬 <b>Комментарий:</b> {comment}")
         
-        email_body += f"""
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Тип формы:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{form_type}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Дата:</strong></td>
-                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">{datetime.now().strftime('%d.%m.%Y %H:%M')}</td>
-                </tr>
-            </table>
-        </body>
-        </html>
-        """
+        message_parts.append(f"")
+        message_parts.append(f"⏰ {datetime.now().strftime('%d.%m.%Y %H:%M')}")
         
-        msg = MIMEMultipart('alternative')
-        msg['Subject'] = subject
-        msg['From'] = 'noreply@poehali.dev'
-        msg['To'] = recipient_email
+        message_text = '\n'.join(message_parts)
         
-        html_part = MIMEText(email_body, 'html', 'utf-8')
-        msg.attach(html_part)
+        telegram_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        
+        params = {
+            'chat_id': chat_id,
+            'text': message_text,
+            'parse_mode': 'HTML'
+        }
+        
+        data = urllib.parse.urlencode(params).encode('utf-8')
+        req = urllib.request.Request(telegram_url, data=data, method='POST')
         
         try:
-            with smtplib.SMTP('smtp.yandex.ru', 587, timeout=10) as server:
-                server.starttls()
-                server.login('noreply@poehali.dev', 'poehali2025')
-                server.send_message(msg)
-        except Exception as smtp_error:
+            with urllib.request.urlopen(req, timeout=10) as response:
+                result = json.loads(response.read().decode('utf-8'))
+                
+                if result.get('ok'):
+                    return {
+                        'statusCode': 200,
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        },
+                        'body': json.dumps({
+                            'success': True,
+                            'message': 'Заявка успешно отправлена'
+                        })
+                    }
+                else:
+                    return {
+                        'statusCode': 500,
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        },
+                        'body': json.dumps({
+                            'success': False,
+                            'error': f"Ошибка Telegram API: {result.get('description', 'Unknown error')}"
+                        })
+                    }
+        except Exception as telegram_error:
             return {
                 'statusCode': 500,
                 'headers': {
@@ -153,21 +154,9 @@ def handler(event: dict, context) -> dict:
                 },
                 'body': json.dumps({
                     'success': False,
-                    'error': f'Ошибка отправки email: {str(smtp_error)}'
+                    'error': f'Ошибка отправки в Telegram: {str(telegram_error)}'
                 })
             }
-        
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'body': json.dumps({
-                'success': True,
-                'message': 'Заявка успешно отправлена'
-            })
-        }
     
     except json.JSONDecodeError:
         return {
