@@ -10,6 +10,7 @@ export default function Index() {
   const { toast } = useToast();
   const [consultationForm, setConsultationForm] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
   const [quizForm, setQuizForm] = useState({ debt_amount: '', collectors: '', debt_types: [] as string[], name: '', phone: '' });
+  const [quizStep, setQuizStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleConsultationSubmit = async () => {
@@ -307,108 +308,165 @@ export default function Index() {
           </p>
           
           <Card className="border-2">
-            <CardContent className="p-8 space-y-8">
-              <div className="space-y-4">
-                <label className="text-lg font-bold text-foreground block">1. Сумма вашего долга</label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {[
-                    { value: 'less300k', label: 'Менее 300 тыс. рублей' },
-                    { value: '300k-1m', label: 'От 300 тыс. до 1 млн рублей' },
-                    { value: '1m-5m', label: 'От 1 млн до 5 млн рублей' },
-                    { value: 'more5m', label: 'Более 5 млн рублей' }
-                  ].map((option) => (
-                    <Button
-                      key={option.value}
-                      type="button"
-                      variant={quizForm.debt_amount === option.value ? 'default' : 'outline'}
-                      className={`h-auto py-4 px-4 text-left justify-start ${quizForm.debt_amount === option.value ? 'bg-primary text-primary-foreground' : ''}`}
-                      onClick={() => setQuizForm({...quizForm, debt_amount: option.value})}
-                    >
-                      {option.label}
-                    </Button>
-                  ))}
+            <CardContent className="p-8">
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-muted-foreground">Шаг {quizStep} из 4</span>
+                  <span className="text-sm font-semibold text-primary">{Math.round((quizStep / 4) * 100)}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{width: `${(quizStep / 4) * 100}%`}}></div>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <label className="text-lg font-bold text-foreground block">2. Беспокоят ли Вас коллекторы?</label>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { value: 'yes', label: 'Да' },
-                    { value: 'no', label: 'Нет' }
-                  ].map((option) => (
-                    <Button
-                      key={option.value}
-                      type="button"
-                      variant={quizForm.collectors === option.value ? 'default' : 'outline'}
-                      className={`h-auto py-4 px-4 ${quizForm.collectors === option.value ? 'bg-primary text-primary-foreground' : ''}`}
-                      onClick={() => setQuizForm({...quizForm, collectors: option.value})}
-                    >
-                      {option.label}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <label className="text-lg font-bold text-foreground block">3. Какие у вас задолженности? (можно выбрать несколько)</label>
-                <div className="grid grid-cols-1 gap-3">
-                  {[
-                    { value: 'credits', label: 'Кредиты или кредитные карты' },
-                    { value: 'mortgage', label: 'Ипотека или автокредиты' },
-                    { value: 'taxes', label: 'Налоги или задолженности по ЖКХ' },
-                    { value: 'other', label: 'Другое' }
-                  ].map((option) => (
-                    <Button
-                      key={option.value}
-                      type="button"
-                      variant={quizForm.debt_types.includes(option.value) ? 'default' : 'outline'}
-                      className={`h-auto py-4 px-4 text-left justify-start ${quizForm.debt_types.includes(option.value) ? 'bg-primary text-primary-foreground' : ''}`}
-                      onClick={() => toggleDebtType(option.value)}
-                    >
-                      <Icon name={quizForm.debt_types.includes(option.value) ? 'CheckSquare' : 'Square'} size={20} className="mr-2" />
-                      {option.label}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-6 border-t space-y-6">
-                <p className="text-center text-lg font-semibold text-foreground">
-                  Укажите свои контактные данные для связи и предоставления информации по возможным вариантам процедуры
-                </p>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-semibold text-foreground mb-2 block">Ваше имя</label>
-                    <Input 
-                      placeholder="Иван Иванов" 
-                      className="border-2" 
-                      value={quizForm.name}
-                      onChange={(e) => setQuizForm({...quizForm, name: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-semibold text-foreground mb-2 block">Телефон</label>
-                    <Input 
-                      placeholder="+7 (___) ___-__-__ (11 цифр)" 
-                      className="border-2" 
-                      value={quizForm.phone}
-                      onChange={(e) => setQuizForm({...quizForm, phone: e.target.value})}
-                      maxLength={18}
-                    />
+              {quizStep === 1 && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  <label className="text-2xl font-bold text-foreground block text-center">Сумма вашего долга</label>
+                  <div className="grid grid-cols-1 gap-3">
+                    {[
+                      { value: 'less300k', label: 'Менее 300 тыс. рублей' },
+                      { value: '300k-1m', label: 'От 300 тыс. до 1 млн рублей' },
+                      { value: '1m-5m', label: 'От 1 млн до 5 млн рублей' },
+                      { value: 'more5m', label: 'Более 5 млн рублей' }
+                    ].map((option) => (
+                      <Button
+                        key={option.value}
+                        type="button"
+                        variant="outline"
+                        className="h-auto py-6 px-6 text-lg hover:bg-primary hover:text-primary-foreground transition-all"
+                        onClick={() => {
+                          setQuizForm({...quizForm, debt_amount: option.value});
+                          setQuizStep(2);
+                        }}
+                      >
+                        {option.label}
+                      </Button>
+                    ))}
                   </div>
                 </div>
-              </div>
+              )}
 
-              <Button 
-                onClick={handleQuizSubmit}
-                disabled={isSubmitting}
-                className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg py-6"
-                size="lg"
-              >
-                {isSubmitting ? 'Отправка...' : 'Получить консультацию'}
-              </Button>
+              {quizStep === 2 && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  <label className="text-2xl font-bold text-foreground block text-center">Беспокоят ли Вас коллекторы?</label>
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { value: 'yes', label: 'Да' },
+                      { value: 'no', label: 'Нет' }
+                    ].map((option) => (
+                      <Button
+                        key={option.value}
+                        type="button"
+                        variant="outline"
+                        className="h-auto py-8 px-6 text-xl hover:bg-primary hover:text-primary-foreground transition-all"
+                        onClick={() => {
+                          setQuizForm({...quizForm, collectors: option.value});
+                          setQuizStep(3);
+                        }}
+                      >
+                        {option.label}
+                      </Button>
+                    ))}
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setQuizStep(1)}
+                    className="w-full"
+                  >
+                    ← Назад
+                  </Button>
+                </div>
+              )}
+
+              {quizStep === 3 && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  <label className="text-2xl font-bold text-foreground block text-center">Какие у вас задолженности?</label>
+                  <p className="text-center text-muted-foreground">Можно выбрать несколько</p>
+                  <div className="grid grid-cols-1 gap-3">
+                    {[
+                      { value: 'credits', label: 'Кредиты или кредитные карты' },
+                      { value: 'mortgage', label: 'Ипотека или автокредиты' },
+                      { value: 'taxes', label: 'Налоги или задолженности по ЖКХ' },
+                      { value: 'other', label: 'Другое' }
+                    ].map((option) => (
+                      <Button
+                        key={option.value}
+                        type="button"
+                        variant={quizForm.debt_types.includes(option.value) ? 'default' : 'outline'}
+                        className={`h-auto py-5 px-6 text-lg text-left justify-start ${quizForm.debt_types.includes(option.value) ? 'bg-primary text-primary-foreground' : ''}`}
+                        onClick={() => toggleDebtType(option.value)}
+                      >
+                        <Icon name={quizForm.debt_types.includes(option.value) ? 'CheckSquare' : 'Square'} size={24} className="mr-3" />
+                        {option.label}
+                      </Button>
+                    ))}
+                  </div>
+                  <div className="flex gap-3">
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => setQuizStep(2)}
+                      className="flex-1"
+                    >
+                      ← Назад
+                    </Button>
+                    <Button 
+                      onClick={() => setQuizStep(4)}
+                      disabled={quizForm.debt_types.length === 0}
+                      className="flex-1 bg-primary text-primary-foreground"
+                    >
+                      Далее →
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {quizStep === 4 && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  <div className="text-center space-y-2 mb-6">
+                    <h3 className="text-2xl font-bold text-foreground">Последний шаг!</h3>
+                    <p className="text-muted-foreground">Укажите контакты для получения консультации</p>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-semibold text-foreground mb-2 block">Ваше имя</label>
+                      <Input 
+                        placeholder="Иван Иванов" 
+                        className="border-2 h-12" 
+                        value={quizForm.name}
+                        onChange={(e) => setQuizForm({...quizForm, name: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold text-foreground mb-2 block">Телефон</label>
+                      <Input 
+                        placeholder="+7 (___) ___-__-__" 
+                        className="border-2 h-12" 
+                        value={quizForm.phone}
+                        onChange={(e) => setQuizForm({...quizForm, phone: e.target.value})}
+                        maxLength={18}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => setQuizStep(3)}
+                      className="flex-1"
+                    >
+                      ← Назад
+                    </Button>
+                    <Button 
+                      onClick={handleQuizSubmit}
+                      disabled={isSubmitting}
+                      className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg py-6"
+                    >
+                      {isSubmitting ? 'Отправка...' : 'Получить консультацию'}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -456,20 +514,35 @@ export default function Index() {
               );
             })}
           </div>
+
+          <div className="mt-16 max-w-4xl mx-auto">
+            <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
+              Отзывы с Яндекс.Карт
+            </h3>
+            <div className="flex justify-center">
+              <div className="w-full max-w-2xl overflow-hidden rounded-lg border-2 border-gray-200 shadow-xl">
+                <iframe 
+                  style={{width: '100%', height: '600px', border: 'none'}}
+                  src="https://yandex.ru/maps-reviews-widget/115872286637?comments"
+                  title="Отзывы ВИТАКОН"
+                ></iframe>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="contact" className="py-20 bg-background">
+      <section id="contact" className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                Получите бесплатную консультацию
-              </h2>
-              <p className="text-muted-foreground mb-8 text-lg">
-                Оставьте заявку и мы свяжемся с вами в течение 15 минут
-              </p>
-              <Card className="border-2">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-foreground">
+            Получите бесплатную консультацию
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 text-lg">
+            Оставьте заявку и мы свяжемся с вами в течение 15 минут
+          </p>
+          <div className="grid lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
+            <div className="lg:col-span-3">
+              <Card className="border-2 shadow-xl">
                 <CardContent className="p-6 space-y-4">
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Ваше имя</label>
@@ -483,7 +556,7 @@ export default function Index() {
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Телефон</label>
                     <Input 
-                      placeholder="+7 (___) ___-__-__ (11 цифр)" 
+                      placeholder="+7 (___) ___-__-__" 
                       className="border-2" 
                       value={consultationForm.phone}
                       onChange={(e) => setConsultationForm({...consultationForm, phone: e.target.value})}
@@ -523,26 +596,53 @@ export default function Index() {
               </Card>
             </div>
 
-            <div>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Icon name="Phone" size={24} className="text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <p className="font-semibold text-foreground">Телефон</p>
-                    <a href="tel:88006001974" className="text-primary hover:text-primary/80 font-semibold text-lg">
-                      8 (800) 600-19-74
-                    </a>
+            <div className="lg:col-span-2 space-y-6">
+              <Card className="border-2 bg-gradient-to-br from-primary/5 to-secondary/5">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Phone" size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground mb-1">Телефон</p>
+                      <a href="tel:88006001974" className="text-primary hover:text-primary/80 font-bold text-xl">
+                        8 (800) 600-19-74
+                      </a>
+                      <p className="text-sm text-muted-foreground mt-1">Звонок по России бесплатный</p>
+                    </div>
                   </div>
-                </div>
+                </CardContent>
+              </Card>
 
-                <div className="flex items-start gap-3">
-                  <Icon name="MapPin" size={24} className="text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <p className="font-semibold text-foreground">Адрес</p>
-                    <p className="text-muted-foreground">37 офисов по всей России</p>
+              <Card className="border-2 bg-gradient-to-br from-secondary/5 to-primary/5">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="MapPin" size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground mb-1">Наши офисы</p>
+                      <p className="text-foreground font-semibold">37 офисов по всей России</p>
+                      <p className="text-sm text-muted-foreground mt-2">Выберем удобный для встречи</p>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 bg-gradient-to-br from-primary/5 to-secondary/5">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Clock" size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground mb-1">Время работы</p>
+                      <p className="text-foreground">Пн-Пт: 9:00 - 18:00</p>
+                      <p className="text-sm text-muted-foreground mt-1">Заявки принимаем круглосуточно</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
@@ -576,8 +676,7 @@ export default function Index() {
               <h4 className="text-lg font-bold mb-4">Информация</h4>
               <div className="space-y-2 text-white/80">
                 <p>Работаем согласно ФЗ №127-ФЗ</p>
-                <p>Лицензия на осуществление деятельности</p>
-                <p>Политика конфиденциальности</p>
+                <a href="/privacy" className="block hover:text-secondary transition-colors">Политика конфиденциальности</a>
               </div>
             </div>
           </div>
