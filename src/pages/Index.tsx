@@ -9,14 +9,19 @@ export default function Index() {
     <div className="min-h-screen bg-background">
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-primary">ВИТАКОН</div>
+          <div className="flex items-center gap-2">
+            <img src="https://cdn.poehali.dev/projects/6cdfb7b2-7eb0-42cf-baf5-e1e9e6b2a420/bucket/75b721cd-a4fd-4863-ac89-f2576f26f136.png" alt="ВИТАКОН" className="h-12" />
+          </div>
           <nav className="hidden md:flex gap-6">
             <a href="#advantages" className="text-foreground hover:text-primary transition-colors">Преимущества</a>
             <a href="#debts" className="text-foreground hover:text-primary transition-colors">Типы долгов</a>
             <a href="#reviews" className="text-foreground hover:text-primary transition-colors">Отзывы</a>
             <a href="#contact" className="text-foreground hover:text-primary transition-colors">Контакты</a>
           </nav>
-          <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+          <Button 
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+          >
             Консультация
           </Button>
         </div>
@@ -39,10 +44,19 @@ export default function Index() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8">
+                <Button 
+                  size="lg" 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8"
+                >
                   Получить консультацию
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  onClick={() => document.getElementById('appointment')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="text-lg px-8"
+                >
                   Узнать стоимость
                 </Button>
               </div>
@@ -276,7 +290,7 @@ export default function Index() {
               </Card>
             </div>
 
-            <div>
+            <div id="appointment">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
                 Запишитесь на встречу
               </h2>
