@@ -172,8 +172,14 @@ export default function Index() {
                 Банкротство физических лиц
               </h1>
               <p className="text-xl text-muted-foreground">
-                Списываем ваши долги абсолютно законно. Банкротство с прозрачными условиями.
+                Помогаем законно решить проблему долгов. Банкротство с прозрачными условиями.
               </p>
+              <div className="flex items-center gap-3 bg-primary/10 p-4 rounded-lg border-l-4 border-primary">
+                <Icon name="FileText" size={32} className="text-primary" />
+                <p className="text-sm font-semibold text-foreground">
+                  📁 Предоставляем папку первой помощи для прохождения банкротства через МФЦ — бесплатно!
+                </p>
+              </div>
               <div className="flex items-center gap-3 bg-secondary/20 p-4 rounded-lg border-l-4 border-secondary">
                 <Icon name="ShieldCheck" size={32} className="text-secondary" />
                 <p className="text-sm font-semibold text-foreground">
@@ -183,10 +189,10 @@ export default function Index() {
               <div className="flex flex-wrap gap-4">
                 <Button 
                   size="lg" 
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => document.getElementById('first-aid')?.scrollIntoView({ behavior: 'smooth' })}
                   className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8"
                 >
-                  Получить консультацию
+                  Получить папку бесплатно
                 </Button>
                 <Button 
                   size="lg" 
@@ -194,7 +200,7 @@ export default function Index() {
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                   className="text-lg px-8"
                 >
-                  Узнать стоимость
+                  Получить консультацию
                 </Button>
               </div>
             </div>
@@ -573,7 +579,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section id="first-aid" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
@@ -1057,8 +1063,11 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
-            <p>© 2026 ВИТАКОН. Все права защищены.</p>
+          <div className="border-t border-white/20 mt-8 pt-8 text-center">
+            <p className="text-white/60">© 2026 ВИТАКОН. Все права защищены.</p>
+            <p className="text-white/30 text-xs mt-4 max-w-4xl mx-auto leading-relaxed">
+              Банкротство влечет негативные последствия, в том числе ограничения на получение кредита и повторное банкротство в течение пяти лет. Предварительно обратитесь к своему кредитору и в МФЦ.
+            </p>
           </div>
         </div>
       </footer>
