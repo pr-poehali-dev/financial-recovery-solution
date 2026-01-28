@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 export default function Index() {
   const { toast } = useToast();
@@ -12,6 +13,7 @@ export default function Index() {
   const [quizForm, setQuizForm] = useState({ debt_amount: '', collectors: '', debt_types: [] as string[], name: '', phone: '' });
   const [quizStep, setQuizStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [firstAidForm, setFirstAidForm] = useState({ name: '', phone: '' });
 
   const handleConsultationSubmit = async () => {
     if (!consultationForm.name || !consultationForm.phone) {
@@ -99,6 +101,45 @@ export default function Index() {
         ? prev.debt_types.filter(t => t !== type)
         : [...prev.debt_types, type]
     }));
+  };
+
+  const handleFirstAidSubmit = async () => {
+    if (!firstAidForm.name || !firstAidForm.phone) {
+      toast({ title: 'Ошибка', description: 'Заполните имя и телефон', variant: 'destructive' });
+      return;
+    }
+    
+    const phoneDigits = firstAidForm.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 11) {
+      toast({ title: 'Ошибка', description: 'Телефон должен содержать 11 цифр', variant: 'destructive' });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          ...firstAidForm, 
+          comment: 'Запрос папки первой помощи',
+          form_type: 'first_aid' 
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        toast({ title: 'Успешно!', description: 'Папка первой помощи будет отправлена в ближайшее время.' });
+        setFirstAidForm({ name: '', phone: '' });
+      } else {
+        toast({ title: 'Ошибка', description: result.error || 'Не удалось отправить заявку', variant: 'destructive' });
+      }
+    } catch (error) {
+      toast({ title: 'Ошибка', description: 'Не удалось отправить заявку. Попробуйте позже.', variant: 'destructive' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -526,6 +567,342 @@ export default function Index() {
                   src="https://yandex.ru/maps-reviews-widget/115872286637?comments"
                   title="Отзывы ВИТАКОН"
                 ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <Badge className="mb-4 text-base px-4 py-2" variant="secondary">
+                Бесплатно
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                Получите папку первой помощи
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Комплект документов и инструкций для самостоятельного прохождения банкротства
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <div className="flex gap-4 items-start">
+                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="FileText" size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground mb-2">
+                        Исчерпывающий перечень документов
+                      </h3>
+                      <p className="text-muted-foreground">
+                        Полный список документов для подачи заявления на банкротство физического лица с подробными комментариями
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="ShieldCheck" size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground mb-2">
+                        Памятка по общению с коллекторами
+                      </h3>
+                      <p className="text-muted-foreground">
+                        Защитите себя: что можно и нельзя говорить, как законно отказать в общении, куда жаловаться на нарушения
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Award" size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground mb-2">
+                        Сертификат на консультацию
+                      </h3>
+                      <p className="text-muted-foreground">
+                        Профессиональная юридическая консультация по решению финансовых проблем граждан РФ
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="AlertTriangle" size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground mb-2">
+                        Список ошибок заемщика
+                      </h3>
+                      <p className="text-muted-foreground">
+                        Типичные ошибки, которые могут привести к отказу в банкротстве или его затягиванию
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-primary/10 rounded-lg p-6 border-2 border-primary/20">
+                  <p className="text-foreground font-semibold text-center">
+                    💡 Эта информация поможет самостоятельно пройти процедуру банкротства и избежать распространенных ошибок
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <Card className="border-2 shadow-2xl bg-gradient-to-br from-primary/5 to-secondary/5">
+                  <CardContent className="p-8 space-y-6">
+                    <div className="text-center space-y-2">
+                      <h3 className="text-2xl font-bold text-foreground">
+                        Заполните форму
+                      </h3>
+                      <p className="text-muted-foreground">
+                        Мы отправим папку первой помощи в течение 15 минут
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm font-semibold text-foreground mb-2 block">
+                          Ваше имя
+                        </label>
+                        <Input 
+                          placeholder="Иван Иванов" 
+                          className="border-2 h-12" 
+                          value={firstAidForm.name}
+                          onChange={(e) => setFirstAidForm({...firstAidForm, name: e.target.value})}
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-semibold text-foreground mb-2 block">
+                          Телефон
+                        </label>
+                        <Input 
+                          placeholder="+7 (___) ___-__-__" 
+                          className="border-2 h-12" 
+                          value={firstAidForm.phone}
+                          onChange={(e) => setFirstAidForm({...firstAidForm, phone: e.target.value})}
+                          maxLength={18}
+                        />
+                      </div>
+
+                      <Button 
+                        onClick={handleFirstAidSubmit} 
+                        className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? 'Отправка...' : 'Получить папку бесплатно'}
+                      </Button>
+
+                      <p className="text-xs text-muted-foreground text-center">
+                        Нажимая кнопку, вы соглашаетесь с{' '}
+                        <a href="/privacy" className="text-primary hover:underline">
+                          политикой конфиденциальности
+                        </a>
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gradient-to-br from-secondary/10 to-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <Badge className="mb-4 text-base px-4 py-2">
+                Реальные кейсы
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                Судебные решения по нашим делам
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Примеры успешно завершенных процедур банкротства с официальными документами
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Курган</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А76-7063/2020</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">2 847 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 12.11.2020</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/09d5da0a-8f89-437a-89eb-05eb9c24d120/c71c97a2-6f79-49f4-82ef-f6087982e6b7/A76-7063-2020_20201112_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Москва</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А40-216211/2019</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">5 234 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 02.09.2020</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/46ca248d-f860-4d4b-ad9f-0afe88a90b6c/0a380c2e-87de-4c8f-b94f-b81ba2ed420c/A40-216211-2019_20200902_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Московская обл.</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А41-49052/2019</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">1 923 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 25.06.2020</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/17f5c25c-a0ca-4ee5-84fd-e4d758c94508/807cc1ef-91ef-4d1d-bf97-716eed280dcc/A41-49052-2019_20200625_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Курган</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А76-53802/2019</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">3 456 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 23.09.2020</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/7876b2f6-20c0-4518-a584-e56a9d187922/0a8bf5d8-95d0-45a0-a91c-bf878d251d44/A76-53802-2019_20200923_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Удмуртия</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А71-740/2020</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">4 125 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 08.10.2020</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/a7dbb1d2-87c8-43e8-b53d-6cf3d3b56510/cf557dde-9adb-40fb-931f-b0192dd3e7f3/A71-740-2020_20201008_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="mt-12 bg-white rounded-lg p-8 border-2 shadow-lg max-w-4xl mx-auto">
+              <div className="flex items-start gap-4">
+                <Icon name="Info" size={32} className="text-primary flex-shrink-0 mt-1" />
+                <div className="space-y-2">
+                  <h3 className="text-xl font-bold text-foreground">
+                    Все решения — официальные документы арбитражных судов РФ
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Каждое дело находится в открытом доступе в картотеке арбитражных дел. 
+                    Вы можете самостоятельно проверить информацию, перейдя по ссылкам на судебные решения.
+                  </p>
+                  <p className="text-foreground font-semibold mt-4">
+                    📊 Всего списано по этим делам: <span className="text-primary text-2xl">17 585 000 ₽</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
