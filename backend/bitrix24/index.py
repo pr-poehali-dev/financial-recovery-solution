@@ -98,6 +98,7 @@ def handler(event: dict, context) -> dict:
             lead_data['EMAIL'] = [{'VALUE': email, 'VALUE_TYPE': 'WORK'}]
         
         api_url = f"{webhook_url}/crm.lead.add.json"
+        print(f"Bitrix24: API URL: {api_url}")
         
         params = {}
         for key, value in lead_data.items():
@@ -113,10 +114,25 @@ def handler(event: dict, context) -> dict:
         req = urllib.request.Request(api_url, data=data, method='POST')
         req.add_header('Content-Type', 'application/x-www-form-urlencoded')
         
+        print(f"Bitrix24: Отправка запроса...")
         with urllib.request.urlopen(req, timeout=10) as response:
             result = json.loads(response.read().decode('utf-8'))
+            print(f"Bitrix24: Ответ получен: {result}")
             
             if result.get('result'):
+                return {
+                    'statusCode': 200,
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    'body': json.dumps({
+                        'success': True,
+                        'lead_id': result['result'],
+                        'message': 'Заявка успешно отправлена'
+                    })
+                }
+                print(f"Bitrix24: Лид создан успешно, ID: {result['result']}")
                 return {
                     'statusCode': 200,
                     'headers': {
@@ -150,6 +166,19 @@ def handler(event: dict, context) -> dict:
                 'Access-Control-Allow-Origin': '*'
             },
             'body': json.dumps({'error': 'Некорректный JSON'})
+        }
+    except urllib.error.URLError as e:
+        print(f"Bitrix24 URL Error: {str(e)}")
+        return {
+            'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({
+                'success': False,
+                'error': f'Ошибка подключения к Bitrix24: {str(e)}'
+            })
         }
     except urllib.error.HTTPError as e:
         error_body = e.read().decode('utf-8')
