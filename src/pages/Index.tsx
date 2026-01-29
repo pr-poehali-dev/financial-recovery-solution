@@ -269,19 +269,19 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="stats" className="py-16 bg-primary text-white">
+      <section id="stats" className="py-16 bg-gradient-to-br from-slate-800 to-slate-900 text-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div className="space-y-2">
-              <div className="text-5xl font-extrabold text-secondary">750+</div>
+              <div className="text-5xl font-extrabold text-emerald-400">750+</div>
               <p className="text-lg text-white/90">Помогли клиентам с 2015 года</p>
             </div>
             <div className="space-y-2">
-              <div className="text-5xl font-extrabold text-secondary">1+ млрд ₽</div>
+              <div className="text-5xl font-extrabold text-emerald-400">1+ млрд ₽</div>
               <p className="text-lg text-white/90">Освободились от долгов на сумму</p>
             </div>
             <div className="space-y-2">
-              <div className="text-5xl font-extrabold text-secondary">от 300k ₽</div>
+              <div className="text-5xl font-extrabold text-emerald-400">от 300k ₽</div>
               <p className="text-lg text-white/90">Работаем с суммой долга</p>
             </div>
           </div>
