@@ -65,6 +65,7 @@ def handler(event: dict, context) -> dict:
             }
         
         webhook_url = webhook_url.replace('/profile.json', '').rstrip('/')
+        print(f"Bitrix24: Отправка лида. Имя: {name}, Телефон: {phone}, Тип формы: {form_type}")
         
         title = f"Заявка с сайта: {name}"
         if form_type == 'appointment':
@@ -150,12 +151,36 @@ def handler(event: dict, context) -> dict:
             },
             'body': json.dumps({'error': 'Некорректный JSON'})
         }
-    except Exception as e:
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode('utf-8')
+        try:
+            error_data = json.loads(error_body)
+            error_msg = error_data.get('error_description', error_data.get('error', 'HTTP Error'))
+        except:
+            error_msg = error_body[:200]
+        
+        print(f"Bitrix24 HTTP Error: {e.code} - {error_msg}")
         return {
             'statusCode': 500,
             'headers': {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            'body': json.dumps({'error': f'Ошибка сервера: {str(e)}'})
+            'body': json.dumps({
+                'success': False,
+                'error': f'Ошибка Bitrix24: {error_msg}'
+            })
+        }
+    except Exception as e:
+        print(f"Bitrix24 Error: {type(e).__name__} - {str(e)}")
+        return {
+            'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({
+                'success': False,
+                'error': f'Ошибка сервера: {str(e)}'
+            })
         }
