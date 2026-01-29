@@ -788,116 +788,23 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <Badge variant="secondary" className="mb-2">Курган</Badge>
-                      <h3 className="text-xl font-bold text-foreground">Дело А76-7063/2020</h3>
+                      <Badge variant="secondary" className="mb-2">Приморский край</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А51-6789/2025</h3>
                     </div>
                     <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center py-2 border-b">
                       <span className="text-muted-foreground">Списано долгов:</span>
-                      <span className="text-2xl font-bold text-primary">2 847 000 ₽</span>
+                      <span className="text-2xl font-bold text-primary">3 200 000 ₽</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Icon name="Calendar" size={16} />
-                      <span>Завершено: 12.11.2020</span>
+                      <span>Завершено: 18.12.2025</span>
                     </div>
                   </div>
                   <a 
-                    href="https://kad.arbitr.ru/Document/Pdf/09d5da0a-8f89-437a-89eb-05eb9c24d120/c71c97a2-6f79-49f4-82ef-f6087982e6b7/A76-7063-2020_20201112_Opredelenie.pdf?isAddStamp=True"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
-                  >
-                    <Icon name="ExternalLink" size={16} />
-                    Посмотреть судебное решение
-                  </a>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 hover:shadow-xl transition-shadow">
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <Badge variant="secondary" className="mb-2">Москва</Badge>
-                      <h3 className="text-xl font-bold text-foreground">Дело А40-216211/2019</h3>
-                    </div>
-                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-muted-foreground">Списано долгов:</span>
-                      <span className="text-2xl font-bold text-primary">5 234 000 ₽</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Icon name="Calendar" size={16} />
-                      <span>Завершено: 02.09.2020</span>
-                    </div>
-                  </div>
-                  <a 
-                    href="https://kad.arbitr.ru/Document/Pdf/46ca248d-f860-4d4b-ad9f-0afe88a90b6c/0a380c2e-87de-4c8f-b94f-b81ba2ed420c/A40-216211-2019_20200902_Opredelenie.pdf?isAddStamp=True"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
-                  >
-                    <Icon name="ExternalLink" size={16} />
-                    Посмотреть судебное решение
-                  </a>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 hover:shadow-xl transition-shadow">
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <Badge variant="secondary" className="mb-2">Московская обл.</Badge>
-                      <h3 className="text-xl font-bold text-foreground">Дело А41-49052/2019</h3>
-                    </div>
-                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-muted-foreground">Списано долгов:</span>
-                      <span className="text-2xl font-bold text-primary">1 923 000 ₽</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Icon name="Calendar" size={16} />
-                      <span>Завершено: 25.06.2020</span>
-                    </div>
-                  </div>
-                  <a 
-                    href="https://kad.arbitr.ru/Document/Pdf/17f5c25c-a0ca-4ee5-84fd-e4d758c94508/807cc1ef-91ef-4d1d-bf97-716eed280dcc/A41-49052-2019_20200625_Opredelenie.pdf?isAddStamp=True"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
-                  >
-                    <Icon name="ExternalLink" size={16} />
-                    Посмотреть судебное решение
-                  </a>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 hover:shadow-xl transition-shadow">
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <Badge variant="secondary" className="mb-2">Курган</Badge>
-                      <h3 className="text-xl font-bold text-foreground">Дело А76-53802/2019</h3>
-                    </div>
-                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center py-2 border-b">
-                      <span className="text-muted-foreground">Списано долгов:</span>
-                      <span className="text-2xl font-bold text-primary">3 456 000 ₽</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Icon name="Calendar" size={16} />
-                      <span>Завершено: 23.09.2020</span>
-                    </div>
-                  </div>
-                  <a 
-                    href="https://kad.arbitr.ru/Document/Pdf/7876b2f6-20c0-4518-a584-e56a9d187922/0a8bf5d8-95d0-45a0-a91c-bf878d251d44/A76-53802-2019_20200923_Opredelenie.pdf?isAddStamp=True"
+                    href="https://kad.arbitr.ru/Document/Pdf/192b07b3-58de-4ab7-a3c6-65d5b5fbddbb/4f917bcd-35e4-41fb-9fb6-3f64582a068e/A51-6789-2025_20251218_Opredelenie.pdf?isAddStamp=True"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
@@ -913,22 +820,115 @@ export default function Index() {
                   <div className="flex items-start justify-between">
                     <div>
                       <Badge variant="secondary" className="mb-2">Удмуртия</Badge>
-                      <h3 className="text-xl font-bold text-foreground">Дело А71-740/2020</h3>
+                      <h3 className="text-xl font-bold text-foreground">Дело А71-349/2025</h3>
                     </div>
                     <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center py-2 border-b">
                       <span className="text-muted-foreground">Списано долгов:</span>
-                      <span className="text-2xl font-bold text-primary">4 125 000 ₽</span>
+                      <span className="text-2xl font-bold text-primary">2 850 000 ₽</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Icon name="Calendar" size={16} />
-                      <span>Завершено: 08.10.2020</span>
+                      <span>Завершено: 31.07.2025</span>
                     </div>
                   </div>
                   <a 
-                    href="https://kad.arbitr.ru/Document/Pdf/a7dbb1d2-87c8-43e8-b53d-6cf3d3b56510/cf557dde-9adb-40fb-931f-b0192dd3e7f3/A71-740-2020_20201008_Opredelenie.pdf?isAddStamp=True"
+                    href="https://kad.arbitr.ru/Document/Pdf/35cf6a3d-5ea1-4a77-9014-cf8f4f5d248c/18403c98-a4d5-4517-84ff-3267729a22d5/A71-349-2025_20250731_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Омская область</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А46-1321/2025</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">4 560 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 18.01.2026</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/9c6c7942-154b-40d0-b3dd-2c530ddeea74/b980a689-77f4-4362-876d-1b12ff77b272/A46-1321-2025_20260118_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Волгоградская область</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А12-3469/2025</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">1 980 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 24.10.2025</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/9f54359b-cff7-432d-a738-8c1cb39ef829/ca3851ea-2d30-4889-9cc8-0f0552bace4c/A12-3469-2025_20251024_Opredelenie.pdf?isAddStamp=True"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+                  >
+                    <Icon name="ExternalLink" size={16} />
+                    Посмотреть судебное решение
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">Новгородская область</Badge>
+                      <h3 className="text-xl font-bold text-foreground">Дело А44-2202/2024</h3>
+                    </div>
+                    <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Списано долгов:</span>
+                      <span className="text-2xl font-bold text-primary">3 750 000 ₽</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="Calendar" size={16} />
+                      <span>Завершено: 12.11.2024</span>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://kad.arbitr.ru/Document/Pdf/2b3ecb52-482e-45ce-8ae0-73e81c8addd2/ce626beb-c50e-4c4d-8e74-2cf577d508d3/A44-2202-2024_20241112_Opredelenie.pdf?isAddStamp=True"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
@@ -952,7 +952,7 @@ export default function Index() {
                     Вы можете самостоятельно проверить информацию, перейдя по ссылкам на судебные решения.
                   </p>
                   <p className="text-foreground font-semibold mt-4">
-                    📊 Всего списано по этим делам: <span className="text-primary text-2xl">17 585 000 ₽</span>
+                    📊 Всего списано по этим делам: <span className="text-primary text-2xl">16 340 000 ₽</span>
                   </p>
                 </div>
               </div>
