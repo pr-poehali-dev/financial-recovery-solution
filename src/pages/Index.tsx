@@ -572,11 +572,11 @@ export default function Index() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { url: "https://vkvideo.ru/video-78655613_456239123?t=59s", name: "Галина Александровна", debt: "650 000 ₽" },
-              { url: "https://vkvideo.ru/video-78655613_456239032?t=3m3s", name: "Клиент ВИТАКОН", debt: null },
-              { url: "https://vkvideo.ru/video-78655613_456239047?t=1m26s", name: "Анастасия", debt: "800 000 ₽" },
-              { url: "https://vkvideo.ru/video-78655613_456239043?t=4m25s", name: "Клиент ВИТАКОН", debt: null },
-              { url: "https://vkvideo.ru/video-78655613_456239073?t=1m29s", name: "Клиент ВИТАКОН", debt: "780 000 ₽" },
-              { url: "https://vkvideo.ru/video-78655613_456239040", name: "Клиент ВИТАКОН", debt: null }
+              { url: "https://vkvideo.ru/video-78655613_456239032?t=3m3s", name: "Людмила Владимировна", debt: "566 500 ₽" },
+              { url: "https://vkvideo.ru/video-78655613_456239047?t=1m26s", name: "Анастасия Александровна", debt: "800 000 ₽" },
+              { url: "https://vkvideo.ru/video-78655613_456239043?t=4m25s", name: "Елена Сергеевна", debt: "608 000 ₽" },
+              { url: "https://vkvideo.ru/video-78655613_456239073?t=1m29s", name: "Светлана Валентиновна", debt: "780 000 ₽" },
+              { url: "https://vkvideo.ru/video-78655613_456239040", name: "Идель", debt: "1 900 000 ₽" }
             ].map((video, index) => {
               const videoId = video.url.match(/video(-?\d+_\d+)/)?.[1] || '';
               const embedUrl = `https://vk.com/video_ext.php?oid=${videoId.split('_')[0]}&id=${videoId.split('_')[1]}&hd=2`;
