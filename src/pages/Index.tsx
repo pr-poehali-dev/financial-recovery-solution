@@ -571,14 +571,14 @@ export default function Index() {
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              "https://vkvideo.ru/video-78655613_456239123?t=59s",
-              "https://vkvideo.ru/video-78655613_456239032?t=3m3s",
-              "https://vkvideo.ru/video-78655613_456239047?t=1m26s",
-              "https://vkvideo.ru/video-78655613_456239043?t=4m25s",
-              "https://vkvideo.ru/video-78655613_456239073?t=1m29s",
-              "https://vkvideo.ru/video-78655613_456239040"
-            ].map((url, index) => {
-              const videoId = url.match(/video(-?\d+_\d+)/)?.[1] || '';
+              { url: "https://vkvideo.ru/video-78655613_456239123?t=59s", name: "Галина Александровна", debt: "650 000 ₽" },
+              { url: "https://vkvideo.ru/video-78655613_456239032?t=3m3s", name: "Клиент ВИТАКОН", debt: null },
+              { url: "https://vkvideo.ru/video-78655613_456239047?t=1m26s", name: "Анастасия", debt: "800 000 ₽" },
+              { url: "https://vkvideo.ru/video-78655613_456239043?t=4m25s", name: "Клиент ВИТАКОН", debt: null },
+              { url: "https://vkvideo.ru/video-78655613_456239073?t=1m29s", name: "Клиент ВИТАКОН", debt: "780 000 ₽" },
+              { url: "https://vkvideo.ru/video-78655613_456239040", name: "Клиент ВИТАКОН", debt: null }
+            ].map((video, index) => {
+              const videoId = video.url.match(/video(-?\d+_\d+)/)?.[1] || '';
               const embedUrl = `https://vk.com/video_ext.php?oid=${videoId.split('_')[0]}&id=${videoId.split('_')[1]}&hd=2`;
               
               return (
@@ -595,8 +595,12 @@ export default function Index() {
                     ></iframe>
                   </div>
                   <CardContent className="p-4">
+                    <p className="font-semibold text-foreground mb-1">{video.name}</p>
+                    {video.debt && (
+                      <p className="text-sm text-primary font-medium mb-2">Списано: {video.debt}</p>
+                    )}
                     <p className="text-sm text-muted-foreground">
-                      Отзыв клиента о банкротстве
+                      Отзыв о процедуре банкротства
                     </p>
                   </CardContent>
                 </Card>
