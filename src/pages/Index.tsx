@@ -633,7 +633,7 @@ export default function Index() {
                 Бесплатно
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-                Получите папку первой помощи
+                Получите инструкцию для МФЦ
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Комплект документов и инструкций для самостоятельного прохождения банкротства
@@ -715,7 +715,7 @@ export default function Index() {
                         Заполните форму
                       </h3>
                       <p className="text-muted-foreground">
-                        Мы отправим папку первой помощи в течение 15 минут
+                        Мы отправим инструкцию в течение 15 минут
                       </p>
                     </div>
 
@@ -750,7 +750,7 @@ export default function Index() {
                         className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? 'Отправка...' : 'Получить папку бесплатно'}
+                        {isSubmitting ? 'Отправка...' : 'Получить инструкцию для МФЦ'}
                       </Button>
 
                       <p className="text-xs text-muted-foreground text-center">
