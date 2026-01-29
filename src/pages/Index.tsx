@@ -187,9 +187,9 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background">
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="https://cdn.poehali.dev/projects/6cdfb7b2-7eb0-42cf-baf5-e1e9e6b2a420/bucket/75b721cd-a4fd-4863-ac89-f2576f26f136.png" alt="ВИТАКОН" className="h-12" />
+            <img src="https://cdn.poehali.dev/projects/6cdfb7b2-7eb0-42cf-baf5-e1e9e6b2a420/bucket/75b721cd-a4fd-4863-ac89-f2576f26f136.png" alt="ВИТАКОН" className="h-10 md:h-12" />
           </div>
           <nav className="hidden md:flex gap-6">
             <a href="#advantages" className="text-foreground hover:text-primary transition-colors">Преимущества</a>
@@ -199,40 +199,40 @@ export default function Index() {
           </nav>
           <Button 
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-sm md:text-base px-4 md:px-6"
           >
             Консультация
           </Button>
         </div>
       </header>
 
-      <section className="pt-32 pb-20 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
+      <section className="pt-24 md:pt-32 pb-12 md:pb-20 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-tight text-foreground">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="space-y-4 md:space-y-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-foreground">
                 Банкротство физических лиц
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-lg md:text-xl text-muted-foreground">
                 Помогаем законно решить проблему долгов. Банкротство с прозрачными условиями.
               </p>
-              <div className="flex items-center gap-3 bg-primary/10 p-4 rounded-lg border-l-4 border-primary">
-                <Icon name="FileText" size={32} className="text-primary" />
-                <p className="text-sm font-semibold text-foreground">
+              <div className="flex items-start gap-3 bg-primary/10 p-3 md:p-4 rounded-lg border-l-4 border-primary">
+                <Icon name="FileText" size={24} className="text-primary flex-shrink-0 mt-0.5" />
+                <p className="text-xs md:text-sm font-semibold text-foreground">
                   📁 Предоставляем папку первой помощи для прохождения банкротства через МФЦ — бесплатно!
                 </p>
               </div>
-              <div className="flex items-center gap-3 bg-secondary/20 p-4 rounded-lg border-l-4 border-secondary">
-                <Icon name="ShieldCheck" size={32} className="text-secondary" />
-                <p className="text-sm font-semibold text-foreground">
+              <div className="flex items-start gap-3 bg-secondary/20 p-3 md:p-4 rounded-lg border-l-4 border-secondary">
+                <Icon name="ShieldCheck" size={24} className="text-secondary flex-shrink-0 mt-0.5" />
+                <p className="text-xs md:text-sm font-semibold text-foreground">
                   Если суд откажет — вернем деньги согласно договору. В соответствии с Федеральным законом №127-ФЗ
                 </p>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <Button 
                   size="lg" 
                   onClick={() => document.getElementById('first-aid')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-base md:text-lg px-6 md:px-8 w-full sm:w-auto"
                 >
                   Получить инструкцию для МФЦ
                 </Button>
@@ -240,15 +240,15 @@ export default function Index() {
                   size="lg" 
                   variant="outline" 
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-lg px-8"
+                  className="text-base md:text-lg px-6 md:px-8 w-full sm:w-auto"
                 >
                   Получить консультацию
                 </Button>
               </div>
             </div>
             <div className="relative">
-              <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-8 text-white shadow-2xl">
-                <h3 className="text-2xl font-bold mb-6">Предложим решение конкретно для вашей ситуации</h3>
+              <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-6 md:p-8 text-white shadow-2xl">
+                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Предложим решение конкретно для вашей ситуации</h3>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Icon name="CheckCircle2" size={24} className="text-secondary flex-shrink-0 mt-1" />
@@ -269,20 +269,20 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="stats" className="py-16 bg-gradient-to-br from-slate-800 to-slate-900 text-white">
+      <section id="stats" className="py-12 md:py-16 bg-gradient-to-br from-slate-800 to-slate-900 text-white">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-center">
             <div className="space-y-2">
-              <div className="text-5xl font-extrabold text-emerald-400">750+</div>
-              <p className="text-lg text-white/90">Помогли клиентам с 2015 года</p>
+              <div className="text-4xl md:text-5xl font-extrabold text-emerald-400">750+</div>
+              <p className="text-base md:text-lg text-white/90">Помогли клиентам с 2015 года</p>
             </div>
             <div className="space-y-2">
-              <div className="text-5xl font-extrabold text-emerald-400">1+ млрд ₽</div>
-              <p className="text-lg text-white/90">Освободились от долгов на сумму</p>
+              <div className="text-4xl md:text-5xl font-extrabold text-emerald-400">1+ млрд ₽</div>
+              <p className="text-base md:text-lg text-white/90">Освободились от долгов на сумму</p>
             </div>
             <div className="space-y-2">
-              <div className="text-5xl font-extrabold text-emerald-400">от 300k ₽</div>
-              <p className="text-lg text-white/90">Работаем с суммой долга</p>
+              <div className="text-4xl md:text-5xl font-extrabold text-emerald-400">от 300k ₽</div>
+              <p className="text-base md:text-lg text-white/90">Работаем с суммой долга</p>
             </div>
           </div>
         </div>
@@ -625,33 +625,33 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="first-aid" className="py-20 bg-white">
+      <section id="first-aid" className="py-12 md:py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <Badge className="mb-4 text-base px-4 py-2" variant="secondary">
+            <div className="text-center mb-8 md:mb-12">
+              <Badge className="mb-3 md:mb-4 text-sm md:text-base px-3 md:px-4 py-1.5 md:py-2" variant="secondary">
                 Бесплатно
               </Badge>
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 text-foreground px-4">
                 Получите инструкцию для МФЦ
               </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
                 Комплект документов и инструкций для самостоятельного прохождения банкротства
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+              <div className="space-y-4 md:space-y-6 order-2 lg:order-1">
                 <div className="space-y-4">
-                  <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                      <Icon name="FileText" size={24} className="text-white" />
+                  <div className="flex gap-3 md:gap-4 items-start">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="FileText" size={20} className="text-white md:w-6 md:h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-foreground mb-2">
+                      <h3 className="text-lg md:text-xl font-bold text-foreground mb-1 md:mb-2">
                         Исчерпывающий перечень документов
                       </h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-sm md:text-base text-muted-foreground">
                         Полный список документов для подачи заявления на банкротство физического лица с подробными комментариями
                       </p>
                     </div>
@@ -707,14 +707,14 @@ export default function Index() {
                 </div>
               </div>
 
-              <div>
+              <div className="order-1 lg:order-2">
                 <Card className="border-2 shadow-2xl bg-gradient-to-br from-primary/5 to-secondary/5">
-                  <CardContent className="p-8 space-y-6">
-                    <div className="text-center space-y-2">
-                      <h3 className="text-2xl font-bold text-foreground">
+                  <CardContent className="p-6 md:p-8 space-y-4 md:space-y-6">
+                    <div className="text-center space-y-1 md:space-y-2">
+                      <h3 className="text-xl md:text-2xl font-bold text-foreground">
                         Заполните форму
                       </h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-sm md:text-base text-muted-foreground">
                         Мы отправим инструкцию в течение 15 минут
                       </p>
                     </div>
@@ -747,11 +747,10 @@ export default function Index() {
 
                       <Button 
                         onClick={handleFirstAidSubmit} 
-                        className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                        className="w-full h-12 md:h-14 text-base md:text-lg bg-primary text-primary-foreground hover:bg-primary/90"
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? 'Отправка...' : 'Получить инструкцию для МФЦ'}
-                      </Button>
 
                       <p className="text-xs text-muted-foreground text-center">
                         Нажимая кнопку, вы соглашаетесь с{' '}
@@ -961,18 +960,18 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="contact" className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
+      <section id="contact" className="py-12 md:py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/10">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-foreground">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-3 md:mb-4 text-foreground">
             Получите бесплатную консультацию
           </h2>
-          <p className="text-center text-muted-foreground mb-12 text-lg">
+          <p className="text-center text-muted-foreground mb-8 md:mb-12 text-base md:text-lg px-4">
             Оставьте заявку и мы свяжемся с вами в течение 15 минут
           </p>
-          <div className="grid lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
-            <div className="lg:col-span-3">
+          <div className="grid lg:grid-cols-5 gap-6 md:gap-8 max-w-6xl mx-auto">
+            <div className="lg:col-span-3 order-2 lg:order-1">
               <Card className="border-2 shadow-xl">
-                <CardContent className="p-6 space-y-4">
+                <CardContent className="p-4 md:p-6 space-y-3 md:space-y-4">
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">Ваше имя</label>
                     <Input 
@@ -1014,7 +1013,7 @@ export default function Index() {
                   <Button 
                     onClick={handleConsultationSubmit}
                     disabled={isSubmitting}
-                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg py-6"
+                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 text-base md:text-lg py-5 md:py-6"
                   >
                     {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
                   </Button>
@@ -1025,19 +1024,19 @@ export default function Index() {
               </Card>
             </div>
 
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-4 md:space-y-6 order-1 lg:order-2">
               <Card className="border-2 bg-gradient-to-br from-primary/5 to-secondary/5">
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                      <Icon name="Phone" size={24} className="text-white" />
+                <CardContent className="p-4 md:p-6 space-y-3 md:space-y-4">
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Phone" size={20} className="text-white md:w-6 md:h-6" />
                     </div>
                     <div>
-                      <p className="font-bold text-foreground mb-1">Телефон</p>
-                      <a href="tel:88006001974" className="text-primary hover:text-primary/80 font-bold text-xl">
+                      <p className="font-bold text-foreground mb-1 text-sm md:text-base">Телефон</p>
+                      <a href="tel:88006001974" className="text-primary hover:text-primary/80 font-bold text-lg md:text-xl">
                         8 (800) 600-19-74
                       </a>
-                      <p className="text-sm text-muted-foreground mt-1">Звонок по России бесплатный</p>
+                      <p className="text-xs md:text-sm text-muted-foreground mt-1">Звонок по России бесплатный</p>
                     </div>
                   </div>
                 </CardContent>
@@ -1077,15 +1076,15 @@ export default function Index() {
         </div>
       </section>
 
-      <footer className="bg-gradient-to-br from-slate-800 to-slate-900 text-white py-12">
+      <footer className="bg-gradient-to-br from-slate-800 to-slate-900 text-white py-8 md:py-12">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
-              <h3 className="text-2xl font-bold mb-4 text-emerald-400">ВИТАКОН</h3>
-              <p className="text-white/80 mb-4">
+              <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-emerald-400">ВИТАКОН</h3>
+              <p className="text-white/80 mb-3 md:mb-4 text-sm md:text-base">
                 Юридическая компания по банкротству физических лиц. Работаем с 2015 года.
               </p>
-              <div className="text-white/70 text-sm space-y-1">
+              <div className="text-white/70 text-xs md:text-sm space-y-1">
                 <p className="font-semibold">ООО "ВИТАКОН"</p>
                 <p>г. Курган, ул. Пичугина, стр. 9, пом. 1, офис 221</p>
                 <p>ИНН 7451388149</p>
@@ -1093,25 +1092,25 @@ export default function Index() {
               </div>
             </div>
             <div>
-              <h4 className="text-lg font-bold mb-4">Контакты</h4>
-              <div className="space-y-2 text-white/80">
-                <a href="tel:88006001974" className="block hover:text-emerald-400 transition-colors font-semibold">
+              <h4 className="text-base md:text-lg font-bold mb-3 md:mb-4">Контакты</h4>
+              <div className="space-y-2 text-white/80 text-sm md:text-base">
+                <a href="tel:88006001974" className="block hover:text-emerald-400 transition-colors font-semibold text-base md:text-lg">
                   8 (800) 600-19-74
                 </a>
                 <p>37 офисов по всей России</p>
               </div>
             </div>
             <div>
-              <h4 className="text-lg font-bold mb-4">Информация</h4>
-              <div className="space-y-2 text-white/80">
+              <h4 className="text-base md:text-lg font-bold mb-3 md:mb-4">Информация</h4>
+              <div className="space-y-2 text-white/80 text-sm md:text-base">
                 <p>Работаем согласно ФЗ №127-ФЗ</p>
                 <a href="/privacy" className="block hover:text-emerald-400 transition-colors">Политика конфиденциальности</a>
               </div>
             </div>
           </div>
-          <div className="border-t border-white/20 mt-8 pt-8 text-center">
-            <p className="text-white/60">© 2026 ВИТАКОН. Все права защищены.</p>
-            <p className="text-white/30 text-xs mt-4 max-w-4xl mx-auto leading-relaxed">
+          <div className="border-t border-white/20 mt-6 md:mt-8 pt-6 md:pt-8 text-center">
+            <p className="text-white/60 text-sm md:text-base">© 2026 ВИТАКОН. Все права защищены.</p>
+            <p className="text-white/30 text-xs mt-3 md:mt-4 max-w-4xl mx-auto leading-relaxed px-4">
               Банкротство влечет негативные последствия, в том числе ограничения на получение кредита и повторное банкротство в течение пяти лет. Предварительно обратитесь к своему кредитору и в МФЦ.
             </p>
           </div>
