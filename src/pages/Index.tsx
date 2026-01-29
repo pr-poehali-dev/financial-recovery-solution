@@ -234,7 +234,7 @@ export default function Index() {
                   onClick={() => document.getElementById('first-aid')?.scrollIntoView({ behavior: 'smooth' })}
                   className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8"
                 >
-                  Получить папку бесплатно
+                  Получить инструкцию для МФЦ
                 </Button>
                 <Button 
                   size="lg" 
