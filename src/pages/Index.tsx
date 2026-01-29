@@ -48,6 +48,10 @@ export default function Index() {
       const bitrixResult = await bitrixResponse.json();
       
       if (telegramResult.success || bitrixResult.success) {
+        // Отправка цели в Яндекс.Метрику
+        if (typeof window !== 'undefined' && (window as any).ym) {
+          (window as any).ym(98835837, 'reachGoal', 'consultation_submit');
+        }
         toast({ title: 'Успешно!', description: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
         setConsultationForm({ name: '', phone: '', debt_amount: '', comment: '' });
       } else {
@@ -102,6 +106,10 @@ export default function Index() {
       const bitrixResult = await bitrixResponse.json();
       
       if (telegramResult.success || bitrixResult.success) {
+        // Отправка цели в Яндекс.Метрику
+        if (typeof window !== 'undefined' && (window as any).ym) {
+          (window as any).ym(98835837, 'reachGoal', 'quiz_submit');
+        }
         toast({ title: 'Успешно!', description: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
         setQuizForm({ debt_amount: '', collectors: '', debt_types: [], name: '', phone: '' });
       } else {
@@ -160,6 +168,10 @@ export default function Index() {
       const bitrixResult = await bitrixResponse.json();
       
       if (telegramResult.success || bitrixResult.success) {
+        // Отправка цели в Яндекс.Метрику
+        if (typeof window !== 'undefined' && (window as any).ym) {
+          (window as any).ym(98835837, 'reachGoal', 'first_aid_submit');
+        }
         toast({ title: 'Успешно!', description: 'Папка первой помощи будет отправлена в ближайшее время.' });
         setFirstAidForm({ name: '', phone: '' });
       } else {
