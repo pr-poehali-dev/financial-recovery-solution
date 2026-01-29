@@ -29,19 +29,29 @@ export default function Index() {
     
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...consultationForm, form_type: 'consultation' })
-      });
+      const formData = { ...consultationForm, form_type: 'consultation' };
       
-      const result = await response.json();
+      const [telegramResponse, bitrixResponse] = await Promise.all([
+        fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        }),
+        fetch('https://functions.poehali.dev/787c227b-bc43-448d-9da9-f1ae8678182b', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        })
+      ]);
       
-      if (result.success) {
+      const telegramResult = await telegramResponse.json();
+      const bitrixResult = await bitrixResponse.json();
+      
+      if (telegramResult.success || bitrixResult.success) {
         toast({ title: 'Успешно!', description: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
         setConsultationForm({ name: '', phone: '', debt_amount: '', comment: '' });
       } else {
-        toast({ title: 'Ошибка', description: result.error || 'Не удалось отправить заявку', variant: 'destructive' });
+        toast({ title: 'Ошибка', description: 'Не удалось отправить заявку', variant: 'destructive' });
       }
     } catch (error) {
       toast({ title: 'Ошибка', description: 'Не удалось отправить заявку. Попробуйте позже.', variant: 'destructive' });
@@ -68,24 +78,34 @@ export default function Index() {
     
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          ...quizForm, 
-          debt_types: quizForm.debt_types.join(', '),
-          comment: `Сумма долга: ${quizForm.debt_amount}, Коллекторы: ${quizForm.collectors}, Задолженности: ${quizForm.debt_types.join(', ')}`,
-          form_type: 'quiz' 
+      const formData = { 
+        ...quizForm, 
+        debt_types: quizForm.debt_types.join(', '),
+        comment: `Сумма долга: ${quizForm.debt_amount}, Коллекторы: ${quizForm.collectors}, Задолженности: ${quizForm.debt_types.join(', ')}`,
+        form_type: 'quiz' 
+      };
+      
+      const [telegramResponse, bitrixResponse] = await Promise.all([
+        fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        }),
+        fetch('https://functions.poehali.dev/787c227b-bc43-448d-9da9-f1ae8678182b', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
         })
-      });
+      ]);
       
-      const result = await response.json();
+      const telegramResult = await telegramResponse.json();
+      const bitrixResult = await bitrixResponse.json();
       
-      if (result.success) {
+      if (telegramResult.success || bitrixResult.success) {
         toast({ title: 'Успешно!', description: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
         setQuizForm({ debt_amount: '', collectors: '', debt_types: [], name: '', phone: '' });
       } else {
-        toast({ title: 'Ошибка', description: result.error || 'Не удалось отправить заявку', variant: 'destructive' });
+        toast({ title: 'Ошибка', description: 'Не удалось отправить заявку', variant: 'destructive' });
       }
     } catch (error) {
       toast({ title: 'Ошибка', description: 'Не удалось отправить заявку. Попробуйте позже.', variant: 'destructive' });
@@ -117,23 +137,33 @@ export default function Index() {
     
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          ...firstAidForm, 
-          comment: 'Запрос папки первой помощи',
-          form_type: 'first_aid' 
+      const formData = { 
+        ...firstAidForm, 
+        comment: 'Запрос папки первой помощи',
+        form_type: 'first_aid' 
+      };
+      
+      const [telegramResponse, bitrixResponse] = await Promise.all([
+        fetch('https://functions.poehali.dev/5d2315a8-cefe-44db-a82e-41d5eb1a5c2d', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        }),
+        fetch('https://functions.poehali.dev/787c227b-bc43-448d-9da9-f1ae8678182b', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
         })
-      });
+      ]);
       
-      const result = await response.json();
+      const telegramResult = await telegramResponse.json();
+      const bitrixResult = await bitrixResponse.json();
       
-      if (result.success) {
+      if (telegramResult.success || bitrixResult.success) {
         toast({ title: 'Успешно!', description: 'Папка первой помощи будет отправлена в ближайшее время.' });
         setFirstAidForm({ name: '', phone: '' });
       } else {
-        toast({ title: 'Ошибка', description: result.error || 'Не удалось отправить заявку', variant: 'destructive' });
+        toast({ title: 'Ошибка', description: 'Не удалось отправить заявку', variant: 'destructive' });
       }
     } catch (error) {
       toast({ title: 'Ошибка', description: 'Не удалось отправить заявку. Попробуйте позже.', variant: 'destructive' });
