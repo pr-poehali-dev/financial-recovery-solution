@@ -1077,11 +1077,11 @@ export default function Index() {
         </div>
       </section>
 
-      <footer className="bg-primary text-white py-12">
+      <footer className="bg-gradient-to-br from-slate-800 to-slate-900 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-2xl font-bold mb-4 text-secondary">ВИТАКОН</h3>
+              <h3 className="text-2xl font-bold mb-4 text-emerald-400">ВИТАКОН</h3>
               <p className="text-white/80 mb-4">
                 Юридическая компания по банкротству физических лиц. Работаем с 2015 года.
               </p>
@@ -1095,7 +1095,7 @@ export default function Index() {
             <div>
               <h4 className="text-lg font-bold mb-4">Контакты</h4>
               <div className="space-y-2 text-white/80">
-                <a href="tel:88006001974" className="block hover:text-secondary transition-colors font-semibold">
+                <a href="tel:88006001974" className="block hover:text-emerald-400 transition-colors font-semibold">
                   8 (800) 600-19-74
                 </a>
                 <p>37 офисов по всей России</p>
@@ -1105,7 +1105,7 @@ export default function Index() {
               <h4 className="text-lg font-bold mb-4">Информация</h4>
               <div className="space-y-2 text-white/80">
                 <p>Работаем согласно ФЗ №127-ФЗ</p>
-                <a href="/privacy" className="block hover:text-secondary transition-colors">Политика конфиденциальности</a>
+                <a href="/privacy" className="block hover:text-emerald-400 transition-colors">Политика конфиденциальности</a>
               </div>
             </div>
           </div>
