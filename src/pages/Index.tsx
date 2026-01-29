@@ -788,7 +788,7 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <Badge variant="secondary" className="mb-2">Приморский край</Badge>
+                      <Badge variant="secondary" className="mb-2">Владивосток</Badge>
                       <h3 className="text-xl font-bold text-foreground">Дело А51-6789/2025</h3>
                     </div>
                     <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
@@ -819,7 +819,7 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <Badge variant="secondary" className="mb-2">Удмуртия</Badge>
+                      <Badge variant="secondary" className="mb-2">Ижевск</Badge>
                       <h3 className="text-xl font-bold text-foreground">Дело А71-349/2025</h3>
                     </div>
                     <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
@@ -850,7 +850,7 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <Badge variant="secondary" className="mb-2">Омская область</Badge>
+                      <Badge variant="secondary" className="mb-2">Омск</Badge>
                       <h3 className="text-xl font-bold text-foreground">Дело А46-1321/2025</h3>
                     </div>
                     <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
@@ -881,7 +881,7 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <Badge variant="secondary" className="mb-2">Волгоградская область</Badge>
+                      <Badge variant="secondary" className="mb-2">Волгоград</Badge>
                       <h3 className="text-xl font-bold text-foreground">Дело А12-3469/2025</h3>
                     </div>
                     <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
@@ -912,7 +912,7 @@ export default function Index() {
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <Badge variant="secondary" className="mb-2">Новгородская область</Badge>
+                      <Badge variant="secondary" className="mb-2">Великий Новгород</Badge>
                       <h3 className="text-xl font-bold text-foreground">Дело А44-2202/2024</h3>
                     </div>
                     <Icon name="CheckCircle" size={32} className="text-green-500 flex-shrink-0" />
