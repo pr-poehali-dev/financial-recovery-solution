@@ -9,15 +9,15 @@ import { Badge } from "@/components/ui/badge";
 
 export default function Index() {
   const { toast } = useToast();
-  const [consultationForm, setConsultationForm] = useState({ name: '', phone: '', debt_amount: '', comment: '' });
-  const [quizForm, setQuizForm] = useState({ debt_amount: '', collectors: '', debt_types: [] as string[], name: '', phone: '' });
+  const [consultationForm, setConsultationForm] = useState({ name: '', phone: '', city: '', comment: '' });
+  const [quizForm, setQuizForm] = useState({ debt_amount: '', collectors: '', debt_types: [] as string[], name: '', phone: '', city: '' });
   const [quizStep, setQuizStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [firstAidForm, setFirstAidForm] = useState({ name: '', phone: '' });
+  const [firstAidForm, setFirstAidForm] = useState({ name: '', phone: '', city: '' });
 
   const handleConsultationSubmit = async () => {
-    if (!consultationForm.name || !consultationForm.phone) {
-      toast({ title: 'Ошибка', description: 'Заполните имя и телефон', variant: 'destructive' });
+    if (!consultationForm.name || !consultationForm.phone || !consultationForm.city) {
+      toast({ title: 'Ошибка', description: 'Заполните имя, телефон и город', variant: 'destructive' });
       return;
     }
     
@@ -53,7 +53,7 @@ export default function Index() {
           (window as any).ym(106471560, 'reachGoal', 'consultation_submit');
         }
         toast({ title: 'Успешно!', description: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
-        setConsultationForm({ name: '', phone: '', debt_amount: '', comment: '' });
+        setConsultationForm({ name: '', phone: '', city: '', comment: '' });
       } else {
         toast({ title: 'Ошибка', description: 'Не удалось отправить заявку', variant: 'destructive' });
       }
@@ -69,8 +69,8 @@ export default function Index() {
       toast({ title: 'Ошибка', description: 'Заполните все вопросы', variant: 'destructive' });
       return;
     }
-    if (!quizForm.name || !quizForm.phone) {
-      toast({ title: 'Ошибка', description: 'Заполните имя и телефон', variant: 'destructive' });
+    if (!quizForm.name || !quizForm.phone || !quizForm.city) {
+      toast({ title: 'Ошибка', description: 'Заполните имя, телефон и город', variant: 'destructive' });
       return;
     }
     
@@ -111,7 +111,7 @@ export default function Index() {
           (window as any).ym(106471560, 'reachGoal', 'quiz_submit');
         }
         toast({ title: 'Успешно!', description: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
-        setQuizForm({ debt_amount: '', collectors: '', debt_types: [], name: '', phone: '' });
+        setQuizForm({ debt_amount: '', collectors: '', debt_types: [], name: '', phone: '', city: '' });
       } else {
         toast({ title: 'Ошибка', description: 'Не удалось отправить заявку', variant: 'destructive' });
       }
@@ -132,8 +132,8 @@ export default function Index() {
   };
 
   const handleFirstAidSubmit = async () => {
-    if (!firstAidForm.name || !firstAidForm.phone) {
-      toast({ title: 'Ошибка', description: 'Заполните имя и телефон', variant: 'destructive' });
+    if (!firstAidForm.name || !firstAidForm.phone || !firstAidForm.city) {
+      toast({ title: 'Ошибка', description: 'Заполните имя, телефон и город', variant: 'destructive' });
       return;
     }
     
@@ -173,7 +173,7 @@ export default function Index() {
           (window as any).ym(106471560, 'reachGoal', 'first_aid_submit');
         }
         toast({ title: 'Успешно!', description: 'Папка первой помощи будет отправлена в ближайшее время.' });
-        setFirstAidForm({ name: '', phone: '' });
+        setFirstAidForm({ name: '', phone: '', city: '' });
       } else {
         toast({ title: 'Ошибка', description: 'Не удалось отправить заявку', variant: 'destructive' });
       }
@@ -524,6 +524,7 @@ export default function Index() {
                         className="border-2 h-12" 
                         value={quizForm.name}
                         onChange={(e) => setQuizForm({...quizForm, name: e.target.value})}
+                        required
                       />
                     </div>
                     <div>
@@ -534,6 +535,17 @@ export default function Index() {
                         value={quizForm.phone}
                         onChange={(e) => setQuizForm({...quizForm, phone: e.target.value})}
                         maxLength={18}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold text-foreground mb-2 block">Город</label>
+                      <Input 
+                        placeholder="Москва" 
+                        className="border-2 h-12" 
+                        value={quizForm.city}
+                        onChange={(e) => setQuizForm({...quizForm, city: e.target.value})}
+                        required
                       />
                     </div>
                   </div>
@@ -729,6 +741,7 @@ export default function Index() {
                           className="border-2 h-12" 
                           value={firstAidForm.name}
                           onChange={(e) => setFirstAidForm({...firstAidForm, name: e.target.value})}
+                          required
                         />
                       </div>
 
@@ -742,6 +755,20 @@ export default function Index() {
                           value={firstAidForm.phone}
                           onChange={(e) => setFirstAidForm({...firstAidForm, phone: e.target.value})}
                           maxLength={18}
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-semibold text-foreground mb-2 block">
+                          Город
+                        </label>
+                        <Input 
+                          placeholder="Москва" 
+                          className="border-2 h-12" 
+                          value={firstAidForm.city}
+                          onChange={(e) => setFirstAidForm({...firstAidForm, city: e.target.value})}
+                          required
                         />
                       </div>
 
@@ -980,6 +1007,7 @@ export default function Index() {
                       className="border-2" 
                       value={consultationForm.name}
                       onChange={(e) => setConsultationForm({...consultationForm, name: e.target.value})}
+                      required
                     />
                   </div>
                   <div>
@@ -990,15 +1018,17 @@ export default function Index() {
                       value={consultationForm.phone}
                       onChange={(e) => setConsultationForm({...consultationForm, phone: e.target.value})}
                       maxLength={18}
+                      required
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-semibold text-foreground mb-2 block">Сумма задолженности</label>
+                    <label className="text-sm font-semibold text-foreground mb-2 block">Город</label>
                     <Input 
-                      placeholder="Например, 500 000 ₽" 
+                      placeholder="Москва" 
                       className="border-2" 
-                      value={consultationForm.debt_amount}
-                      onChange={(e) => setConsultationForm({...consultationForm, debt_amount: e.target.value})}
+                      value={consultationForm.city}
+                      onChange={(e) => setConsultationForm({...consultationForm, city: e.target.value})}
+                      required
                     />
                   </div>
                   <div>
