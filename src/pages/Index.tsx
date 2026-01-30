@@ -751,6 +751,7 @@ export default function Index() {
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? 'Отправка...' : 'Получить инструкцию для МФЦ'}
+                      </Button>
 
                       <p className="text-xs text-muted-foreground text-center">
                         Нажимая кнопку, вы соглашаетесь с{' '}
